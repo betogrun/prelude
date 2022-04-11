@@ -1,22 +1,17 @@
-FROM ruby:3.1.1-slim
+FROM ruby:3.1
+ENV BUNDLE_PATH /usr/local/bundle
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    gnupg2 \
-    curl \
-    less \ 
-    git \
-    libpq-dev \
-    postgresql-client-common \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ENV LANG=C.UTF-8 \
-  BUNDLE_JOBS=4 \
-  BUNDLE_RETRY=3
-
-RUN gem update --system && gem install bundler --no-document
+RUN RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -qq && apt-get install -y build-essential nodejs yarn
 
 WORKDIR /usr/src/app
+
+COPY Gemfile .
+COPY Gemfile.lock .
+ 
+RUN bundle install
+
+COPY . .
 
 ENTRYPOINT ["./entrypoint.sh"]
 
