@@ -8,7 +8,7 @@ rm -f tmp/pids/server.pid
 bundle check || bundle install --jobs 4
 
 # Setup database 
-bundle exec rails db:setup
+# bundle exec rails db:setup
 
 # bundle exec foreman start -f Procfile.dev -p 3000
 

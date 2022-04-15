@@ -4,35 +4,45 @@ Minimal boiler plate to create a dockerized Ruby on Rails 7 application.
 
 ## Clone the application
 ```
-$ git clone https://github.com/betogrun/prelude.git your_application
+git clone https://github.com/betogrun/prelude.git your_application
 
 # or
 
-$ git clone git@github.com:betogrun/prelude.git your_application
+git clone git@github.com:betogrun/prelude.git your_application
+```
+
+## Change the application name references
+
+Change the application name on Dockerfile
+
+```yml
+WORKDIR /usr/src/your_application
+```
+
+Change the application name on docker-compose.yml
+
+```yml
+web:
+    build: .
+    entrypoint: ./entrypoint-dev.sh
+    command: bash -c "bundle exec foreman start -f Procfile.dev -p 3000"
+    tty: true
+    volumes:
+      - .:/usr/src/your_application
+
 ```
 
 ## Generate the Rails project
 
 Generate an application with Postgres database, esbuild and Tailwind CSS.
 ```
-$ docker-compose run --rm --no-deps web bundle exec rails new . --force -d postgresql -j esbuild --css tailwind 
-$ docker-compose run --rm web bundle add foreman --group "development, test"
+docker-compose run --rm --no-deps web bundle exec rails new . --force -d postgresql -j esbuild --css tailwind 
+docker-compose run --rm web bundle add foreman --group "development, test"
 ```
 
-Change the files ownership if you are using linux.
+Change the files ownership if you are using Linux.
 ```
-$ sudo chown -R $USER:$USER .
-```
-
-## Enable esbuild and Tailwind
-
-Add the following content to `package.json`
-
-```
-"scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
-    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
-  }
+sudo chown -R $USER:$USER .
 ```
 
 ## Update the database configuration
@@ -53,7 +63,18 @@ default: &default
 
 ## Create the database
 ```
-$ docker-compose run --rm web rails db:create
+docker-compose run --rm web rails db:create
+```
+
+## Enable esbuild and Tailwind
+
+Add the following content to `package.json`
+
+```
+"scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+  }
 ```
 
 ## Running the application

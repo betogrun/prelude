@@ -20,7 +20,7 @@ services:
     command: bash -c "bundle exec foreman start -f Procfile.dev -p 3000"
     tty: true
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/your_application
       - bundle:/usr/local/bundle
     ports:
       - 3000:3000
