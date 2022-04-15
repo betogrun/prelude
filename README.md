@@ -47,7 +47,7 @@ sudo chown -R $USER:$USER .
 
 ## Update the database configuration
 
-Add the following content to `config.database` default entry.
+Add the following content to `config/database` default entry.
 
 ```yml
 default: &default
