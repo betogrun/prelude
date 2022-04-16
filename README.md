@@ -35,6 +35,8 @@ web:
 ## Generate the Rails project
 
 Generate an application with Postgres database, esbuild and Tailwind CSS.
+Feel free to change the options, but keep in mind the next steps may be affected.
+
 ```
 docker-compose run --rm --no-deps web bundle exec rails new . --force -d postgresql -j esbuild --css tailwind 
 docker-compose run --rm web bundle add foreman --group "development, test"
@@ -75,6 +77,11 @@ Add the following content to `package.json`
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   }
+```
+
+## Update Procfile.dev
+```
+web: bin/rails server -p 3000 -b '0.0.0.0'
 ```
 
 ## Running the application
