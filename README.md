@@ -65,7 +65,7 @@ default: &default
 
 ## Create the database
 ```
-docker-compose run --rm web rails db:create
+docker-compose run --rm web bundle exec rails db:create
 ```
 
 ## Enable esbuild and Tailwind
