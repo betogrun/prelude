@@ -14,10 +14,24 @@ services:
     volumes:
       - redis_data:/data
 
+  js:
+    build:
+      context: "."
+    command: "yarn build --watch"
+    volumes:
+      - .:/usr/src/your_application
+
+  css:
+    build:
+      context: "."
+    command: "yarn build:css --watch"
+    volumes:
+      - .:/usr/src/your_application
+
   web:
     build: .
     entrypoint: ./entrypoint-dev.sh
-    command: bash -c "bundle exec foreman start -f Procfile.dev -p 3000"
+    command: bash -c "bundle exec rails s -p 3000 -b '0.0.0.0'"
     tty: true
     volumes:
       - .:/usr/src/your_application
@@ -34,6 +48,8 @@ services:
     depends_on:
       - db
       - redis
+      - js
+      - css
 
 volumes:
   postgres_data:

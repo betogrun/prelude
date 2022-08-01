@@ -79,14 +79,22 @@ Add the following content to `package.json`
   }
 ```
 
-## Update Procfile.dev
-```
-web: bin/rails server -p 3000 -b '0.0.0.0'
-```
-
 ## Running the application
 ```
 $ docker-compose up
 ```
 
+## Debugging
+
+Get the id for the web container
+
+```
+docker ps
+```
+
+Attach your terminal to the container
+
+```
+docker attach container_id
+```
 
