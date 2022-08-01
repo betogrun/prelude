@@ -19,14 +19,14 @@ services:
       context: "."
     command: "yarn build --watch"
     volumes:
-      - .:/usr/src/lazy-joker
+      - .:/usr/src/your_application
 
   css:
     build:
       context: "."
     command: "yarn build:css --watch"
     volumes:
-      - .:/usr/src/lazy-joker
+      - .:/usr/src/your_application
 
   web:
     build: .
